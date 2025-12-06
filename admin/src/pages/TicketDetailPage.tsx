@@ -24,6 +24,8 @@ interface Ticket {
     priority: string;
     status: string;
     createdAt: string;
+    rating?: number;
+    feedback?: string;
     user?: {
         id: string;
         name: string;
@@ -55,7 +57,7 @@ const TicketDetailPage: React.FC = () => {
 
         try {
             const response = await adminAPI.getTicketById(ticketId, token);
-            setTicket(response.data);
+            setTicket(response.data.ticket);
         } catch (err: any) {
             setError(err.response?.data?.message || 'Failed to load ticket');
         } finally {
@@ -68,7 +70,7 @@ const TicketDetailPage: React.FC = () => {
 
         try {
             const response = await adminAPI.getMessages(ticketId, token);
-            setMessages(response.data);
+            setMessages(response.data.messages || []);
         } catch (err: any) {
             console.error('Failed to load messages:', err);
         }
@@ -145,7 +147,7 @@ const TicketDetailPage: React.FC = () => {
                         </div>
                         <div className="meta-item">
                             <label>Created:</label>
-                            <span>{new Date(ticket.createdAt).toLocaleString()}</span>
+                            <span>{new Date((ticket as any).created_at || ticket.createdAt).toLocaleString()}</span>
                         </div>
                     </div>
 
@@ -163,6 +165,32 @@ const TicketDetailPage: React.FC = () => {
                             <p>
                                 <strong>Email:</strong> {ticket.user.email}
                             </p>
+                        </div>
+                    )}
+
+                    {/* Rating Section */}
+                    {ticket.rating && (
+                        <div className="rating-section">
+                            <h3>Customer Rating</h3>
+                            <div className="rating-display">
+                                <div className="stars">
+                                    {[1, 2, 3, 4, 5].map((star) => (
+                                        <span
+                                            key={star}
+                                            className={star <= ticket.rating! ? 'star filled' : 'star'}
+                                        >
+                                            ★
+                                        </span>
+                                    ))}
+                                </div>
+                                <span className="rating-value">{ticket.rating}/5</span>
+                            </div>
+                            {ticket.feedback && (
+                                <div className="feedback">
+                                    <strong>Feedback:</strong>
+                                    <p>{ticket.feedback}</p>
+                                </div>
+                            )}
                         </div>
                     )}
 

@@ -13,12 +13,14 @@ import { getTokens, isTokenExpired } from './utils/token';
 import { authAPI } from './api/index';
 
 // Screens
+import SplashScreen from './screens/SplashScreen';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import RoleSelectionScreen from './screens/RoleSelectionScreen';
 import TicketListScreen from './screens/TicketListScreen';
 import NewTicketScreen from './screens/NewTicketScreen';
 import TicketDetailScreen from './screens/TicketDetailScreen';
+import ProfileScreen from './screens/ProfileScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -123,6 +125,11 @@ const AppTabs = () => {
           },
         })}
       />
+      <Tab.Screen
+        name="ProfileTab"
+        component={ProfileScreen}
+        options={{ title: 'Profile', headerShown: true, headerStyle: { backgroundColor: '#007AFF' }, headerTintColor: '#fff' }}
+      />
     </Tab.Navigator>
   );
 };
@@ -131,6 +138,7 @@ const App: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { isAuthenticated } = useSelector((state: RootState) => state.auth);
   const [isLoading, setIsLoading] = useState(true);
+  const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
     checkAutoLogin();
@@ -179,6 +187,10 @@ const App: React.FC = () => {
       setIsLoading(false);
     }
   };
+
+  if (showSplash) {
+    return <SplashScreen onFinish={() => setShowSplash(false)} />;
+  }
 
   if (isLoading) {
     return (

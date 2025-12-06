@@ -15,6 +15,10 @@ import { RootState, AppDispatch } from '../store/store';
 import { setSelectedTicket, setError } from '../store/ticketSlice';
 import { setMessages, addMessage } from '../store/messageSlice';
 import { ticketAPI, messageAPI } from '../api/index';
+import RatingModal from '../components/RatingModal';
+import axios from 'axios';
+import { API_BASE_URL } from '../utils/axios';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 interface TicketDetailScreenProps {
   navigation: any;
@@ -26,9 +30,11 @@ const TicketDetailScreen: React.FC<TicketDetailScreenProps> = ({ navigation, rou
   const { ticketId } = route.params;
   const { selectedTicket } = useSelector((state: RootState) => state.tickets);
   const messages = useSelector((state: RootState) => state.messages.messages[ticketId] || []);
+  const { accessToken } = useSelector((state: RootState) => state.auth);
   const [loading, setLoading] = useState(true);
   const [sending, setSending] = useState(false);
   const [messageText, setMessageText] = useState('');
+  const [showRatingModal, setShowRatingModal] = useState(false);
 
   useEffect(() => {
     fetchTicketDetails();
@@ -70,6 +76,20 @@ const TicketDetailScreen: React.FC<TicketDetailScreenProps> = ({ navigation, rou
       dispatch(setError(err.message || 'Failed to send message'));
     } finally {
       setSending(false);
+    }
+  };
+
+  const handleSubmitRating = async (rating: number, feedback: string) => {
+    try {
+      await axios.post(
+        `${API_BASE_URL}/tickets/${ticketId}/rate`,
+        { rating, feedback },
+        { headers: { Authorization: `Bearer ${accessToken}` } }
+      );
+      // Refresh ticket details to show the rating
+      fetchTicketDetails();
+    } catch (err: any) {
+      dispatch(setError(err.message || 'Failed to submit rating'));
     }
   };
 
@@ -176,6 +196,38 @@ const TicketDetailScreen: React.FC<TicketDetailScreenProps> = ({ navigation, rou
             <Text style={styles.descriptionLabel}>Description</Text>
             <Text style={styles.description}>{selectedTicket.description}</Text>
           </View>
+
+          {/* Rating Section */}
+          {selectedTicket.status === 'closed' && (
+            <View style={styles.ratingContainer}>
+              {selectedTicket.rating ? (
+                <View>
+                  <Text style={styles.ratingLabel}>Your Rating</Text>
+                  <View style={styles.starsRow}>
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <MaterialIcons
+                        key={star}
+                        name="star"
+                        size={24}
+                        color={star <= selectedTicket.rating ? '#FFB800' : '#DDD'}
+                      />
+                    ))}
+                  </View>
+                  {selectedTicket.feedback && (
+                    <Text style={styles.feedbackText}>{selectedTicket.feedback}</Text>
+                  )}
+                </View>
+              ) : (
+                <TouchableOpacity
+                  style={styles.rateButton}
+                  onPress={() => setShowRatingModal(true)}
+                >
+                  <MaterialIcons name="star-border" size={20} color="#007AFF" />
+                  <Text style={styles.rateButtonText}>Rate this ticket</Text>
+                </TouchableOpacity>
+              )}
+            </View>
+          )}
         </View>
 
         <View style={styles.messagesHeader}>
@@ -212,6 +264,12 @@ const TicketDetailScreen: React.FC<TicketDetailScreenProps> = ({ navigation, rou
           )}
         </TouchableOpacity>
       </View>
+
+      <RatingModal
+        visible={showRatingModal}
+        onClose={() => setShowRatingModal(false)}
+        onSubmit={handleSubmitRating}
+      />
     </View>
   );
 };
@@ -391,6 +449,44 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 13,
     fontWeight: '600',
+  },
+  ratingContainer: {
+    marginTop: 16,
+    paddingTop: 16,
+    borderTopWidth: 1,
+    borderTopColor: '#e0e0e0',
+  },
+  ratingLabel: {
+    fontSize: 12,
+    color: '#999',
+    marginBottom: 8,
+  },
+  starsRow: {
+    flexDirection: 'row',
+    gap: 4,
+    marginBottom: 8,
+  },
+  feedbackText: {
+    fontSize: 13,
+    color: '#666',
+    fontStyle: 'italic',
+    marginTop: 4,
+  },
+  rateButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    backgroundColor: '#F0F8FF',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#007AFF',
+  },
+  rateButtonText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#007AFF',
   },
 });
 

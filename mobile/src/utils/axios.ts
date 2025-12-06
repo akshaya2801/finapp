@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { store } from '../store/store';
 import { setTokens, logout } from '../store/authSlice';
 
-const API_BASE_URL = 'http://192.168.1.100:3001/api'; // Backend server URL
+const API_BASE_URL = 'https://finapp-backend-9td9.onrender.com/api'; // Production backend URL
 
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: API_BASE_URL,

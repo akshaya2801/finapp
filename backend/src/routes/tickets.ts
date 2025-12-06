@@ -141,4 +141,51 @@ router.put('/:ticketId/status', authMiddleware, async (req: Request, res: Respon
   }
 });
 
+// Rate a ticket (customer only, ticket must be closed)
+router.post('/:ticketId/rate', authMiddleware, async (req: Request, res: Response) => {
+  try {
+    const { ticketId } = req.params;
+    const { rating, feedback } = req.body;
+    const userId = req.user?.userId;
+
+    if (!rating || rating < 1 || rating > 5) {
+      return res.status(400).json({ success: false, message: 'Rating must be between 1 and 5' });
+    }
+
+    // Check if ticket exists and belongs to user
+    const ticketResult = await query(
+      'SELECT user_id, status FROM tickets WHERE id = $1',
+      [ticketId]
+    );
+
+    if (ticketResult.rows.length === 0) {
+      return res.status(404).json({ success: false, message: 'Ticket not found' });
+    }
+
+    const ticket = ticketResult.rows[0];
+
+    if (ticket.user_id !== userId) {
+      return res.status(403).json({ success: false, message: 'Unauthorized' });
+    }
+
+    if (ticket.status !== 'closed') {
+      return res.status(400).json({ success: false, message: 'Can only rate closed tickets' });
+    }
+
+    // Update ticket with rating
+    await query(
+      'UPDATE tickets SET rating = $1, feedback = $2, updated_at = NOW() WHERE id = $3',
+      [rating, feedback || null, ticketId]
+    );
+
+    res.json({
+      success: true,
+      message: 'Rating submitted successfully',
+    });
+  } catch (err: any) {
+    console.error('Rate ticket error:', err);
+    res.status(500).json({ success: false, message: 'Failed to submit rating', error: err.message });
+  }
+});
+
 export default router;

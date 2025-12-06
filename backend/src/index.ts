@@ -8,6 +8,8 @@ import ticketRoutes from './routes/tickets';
 import messageRoutes from './routes/messages';
 import attachmentRoutes from './routes/attachments';
 import deviceRoutes from './routes/devices';
+import analyticsRoutes from './routes/analytics';
+import profileRoutes from './routes/profile';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -31,6 +33,8 @@ app.use('/api/tickets', ticketRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/attachments', attachmentRoutes);
 app.use('/api/devices', deviceRoutes);
+app.use('/api/analytics', analyticsRoutes);
+app.use('/api/profile', profileRoutes);
 
 // Error handling middleware
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {

@@ -22,6 +22,8 @@ CREATE TABLE IF NOT EXISTS tickets (
   description TEXT NOT NULL,
   priority VARCHAR(50) DEFAULT 'normal' CHECK (priority IN ('low', 'normal', 'high', 'urgent')),
   status VARCHAR(50) DEFAULT 'open' CHECK (status IN ('open', 'in_progress', 'resolved', 'closed')),
+  rating INTEGER CHECK (rating >= 1 AND rating <= 5),
+  feedback TEXT,
   created_at TIMESTAMP DEFAULT NOW(),
   updated_at TIMESTAMP DEFAULT NOW()
 );

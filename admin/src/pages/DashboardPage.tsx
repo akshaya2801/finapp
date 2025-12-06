@@ -39,7 +39,7 @@ const DashboardPage: React.FC = () => {
 
         try {
             const response = await adminAPI.getTickets(token, statusFilter);
-            setTickets(response.data);
+            setTickets(response.data.tickets || []);
         } catch (err: any) {
             setError(err.response?.data?.message || 'Failed to load tickets');
         } finally {
@@ -80,9 +80,14 @@ const DashboardPage: React.FC = () => {
                         <h1>Admin Dashboard</h1>
                         <p>Welcome back, {user?.name}</p>
                     </div>
-                    <button onClick={handleLogout} className="logout-button">
-                        <FiLogOut /> Logout
-                    </button>
+                    <div style={{ display: 'flex', gap: '12px' }}>
+                        <button onClick={() => navigate('/analytics')} className="analytics-button">
+                            📊 Analytics
+                        </button>
+                        <button onClick={handleLogout} className="logout-button">
+                            <FiLogOut /> Logout
+                        </button>
+                    </div>
                 </div>
             </header>
 
