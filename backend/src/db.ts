@@ -1,10 +1,17 @@
 import { Pool, PoolClient } from 'pg';
+import dns from 'dns';
+
+// Force IPv4 resolution
+dns.setDefaultResultOrder('ipv4first');
 
 let pool: any;
 
 try {
   pool = new Pool({
     connectionString: process.env.DATABASE_URL,
+    ssl: {
+      rejectUnauthorized: false,
+    },
   });
 
   pool.on('error', (err: any) => {
