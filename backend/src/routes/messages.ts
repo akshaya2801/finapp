@@ -23,7 +23,7 @@ router.get('/ticket/:ticketId', authMiddleware, async (req: Request, res: Respon
 
     const ticket = ticketResult.rows[0];
     const isAdmin = req.user?.role === 'admin';
-    
+
     if (!isAdmin && ticket.user_id !== userId) {
       return res.status(403).json({ success: false, message: 'Unauthorized' });
     }
@@ -70,7 +70,7 @@ router.post('/:ticketId', authMiddleware, async (req: Request, res: Response) =>
     const messageId = uuidv4();
 
     await query(
-      'INSERT INTO messages (id, ticket_id, sender_id, text) VALUES ($1, $2, $3, $4)',
+      'INSERT INTO messages (id, ticket_id, sender_id, content) VALUES ($1, $2, $3, $4)',
       [messageId, ticketId, senderId, text]
     );
 
