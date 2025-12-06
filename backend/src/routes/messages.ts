@@ -29,13 +29,11 @@ router.get('/ticket/:ticketId', authMiddleware, async (req: Request, res: Respon
     }
 
     const result = await query(
-      `SELECT m.*, u.name as sender_name, u.email as sender_email,
-              json_agg(json_build_object('id', a.id, 'file_url', a.file_url, 'file_name', a.file_name, 'file_type', a.file_type)) as attachments
+      `SELECT m.id, m.ticket_id, m.sender_id, m.content, m.created_at,
+              u.name as sender_name, u.email as sender_email, u.role as sender_role
        FROM messages m
        LEFT JOIN users u ON m.sender_id = u.id
-       LEFT JOIN attachments a ON m.id = a.message_id
        WHERE m.ticket_id = $1
-       GROUP BY m.id, u.name, u.email
        ORDER BY m.created_at ASC`,
       [ticketId]
     );
