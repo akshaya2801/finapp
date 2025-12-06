@@ -38,9 +38,21 @@ router.get('/ticket/:ticketId', authMiddleware, async (req: Request, res: Respon
       [ticketId]
     );
 
+    // Transform to match frontend format
+    const messages = result.rows.map(row => ({
+      id: row.id,
+      text: row.content,
+      senderId: row.sender_id,
+      createdAt: row.created_at,
+      sender: {
+        name: row.sender_name,
+        role: row.sender_role
+      }
+    }));
+
     res.json({
       success: true,
-      messages: result.rows,
+      messages,
     });
   } catch (err: any) {
     console.error('Get messages error:', err);
