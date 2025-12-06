@@ -34,17 +34,24 @@ router.post('/', authMiddleware, async (req: Request, res: Response) => {
   }
 });
 
-// Get all tickets for user
+// Get all tickets for user (or all tickets if admin)
 router.get('/', authMiddleware, async (req: Request, res: Response) => {
   try {
     const userId = req.user?.userId;
+    const isAdmin = req.user?.role === 'admin';
     const { status } = req.query;
 
-    let queryStr = 'SELECT * FROM tickets WHERE user_id = $1';
-    const params: any[] = [userId];
+    let queryStr = 'SELECT * FROM tickets';
+    const params: any[] = [];
+
+    // Admins see all tickets, users see only their own
+    if (!isAdmin) {
+      queryStr += ' WHERE user_id = $1';
+      params.push(userId);
+    }
 
     if (status) {
-      queryStr += ' AND status = $2';
+      queryStr += isAdmin ? ' WHERE status = $1' : ' AND status = $2';
       params.push(status);
     }
 
