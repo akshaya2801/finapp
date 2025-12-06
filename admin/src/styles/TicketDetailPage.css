@@ -1,0 +1,351 @@
+.ticket-detail-page {
+    min-height: 100vh;
+    background-color: #f5f7fa;
+}
+
+.detail-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 20px 32px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.back-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.back-button:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.detail-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 32px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+@media (max-width: 1024px) {
+    .detail-content {
+        grid-template-columns: 1fr;
+    }
+}
+
+.ticket-info-section,
+.messages-section {
+    background: white;
+    border-radius: 12px;
+    padding: 32px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.ticket-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+    gap: 16px;
+}
+
+.ticket-title-row h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1a1a1a;
+    flex: 1;
+}
+
+.status-badge {
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+    white-space: nowrap;
+}
+
+.status-open {
+    background-color: #007aff;
+}
+
+.status-in-progress {
+    background-color: #ff9500;
+}
+
+.status-resolved {
+    background-color: #34c759;
+}
+
+.status-closed {
+    background-color: #8e8e93;
+}
+
+.ticket-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 8px;
+}
+
+.meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.meta-item label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #666;
+    text-transform: uppercase;
+}
+
+.meta-item span {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+}
+
+.priority-low {
+    color: #34c759;
+}
+
+.priority-normal {
+    color: #007aff;
+}
+
+.priority-high {
+    color: #ff9500;
+}
+
+.priority-urgent {
+    color: #ff3b30;
+}
+
+.ticket-description,
+.customer-info,
+.status-actions {
+    margin-bottom: 24px;
+}
+
+.ticket-description h3,
+.customer-info h3,
+.status-actions h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 12px;
+}
+
+.ticket-description p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #555;
+}
+
+.customer-info p {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.status-buttons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.status-btn {
+    padding: 10px 20px;
+    border: 2px solid;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.status-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.status-btn.status-open {
+    border-color: #007aff;
+    color: #007aff;
+}
+
+.status-btn.status-open:hover:not(:disabled) {
+    background: #007aff;
+    color: white;
+}
+
+.status-btn.status-in-progress {
+    border-color: #ff9500;
+    color: #ff9500;
+}
+
+.status-btn.status-in-progress:hover:not(:disabled) {
+    background: #ff9500;
+    color: white;
+}
+
+.status-btn.status-resolved {
+    border-color: #34c759;
+    color: #34c759;
+}
+
+.status-btn.status-resolved:hover:not(:disabled) {
+    background: #34c759;
+    color: white;
+}
+
+.status-btn.status-closed {
+    border-color: #8e8e93;
+    color: #8e8e93;
+}
+
+.status-btn.status-closed:hover:not(:disabled) {
+    background: #8e8e93;
+    color: white;
+}
+
+.messages-section h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 20px;
+}
+
+.messages-container {
+    max-height: 500px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+    padding: 16px;
+    background: #f9f9f9;
+    border-radius: 8px;
+}
+
+.no-messages {
+    text-align: center;
+    color: #999;
+    padding: 40px 20px;
+}
+
+.message {
+    margin-bottom: 16px;
+    padding: 16px;
+    border-radius: 12px;
+    max-width: 85%;
+}
+
+.message-customer {
+    background: #e9ecef;
+    margin-right: auto;
+}
+
+.message-admin {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    margin-left: auto;
+}
+
+.message-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 12px;
+}
+
+.message-admin .message-header {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.message-customer .message-header {
+    color: #666;
+}
+
+.message-text {
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.message-form {
+    display: flex;
+    gap: 12px;
+}
+
+.message-input {
+    flex: 1;
+    padding: 12px 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+.message-input:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.send-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: transform 0.2s ease;
+}
+
+.send-button:hover:not(:disabled) {
+    transform: translateY(-2px);
+}
+
+.send-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.loading-page,
+.error-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.error-page button {
+    padding: 12px 24px;
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+}
