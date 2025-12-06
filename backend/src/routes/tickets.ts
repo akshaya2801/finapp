@@ -74,11 +74,18 @@ router.get('/:ticketId', authMiddleware, async (req: Request, res: Response) => 
   try {
     const { ticketId } = req.params;
     const userId = req.user?.userId;
+    const isAdmin = req.user?.role === 'admin';
 
-    const result = await query(
-      'SELECT * FROM tickets WHERE id = $1 AND user_id = $2',
-      [ticketId, userId]
-    );
+    let queryStr = 'SELECT * FROM tickets WHERE id = $1';
+    const params: any[] = [ticketId];
+
+    // Non-admins can only see their own tickets
+    if (!isAdmin) {
+      queryStr += ' AND user_id = $2';
+      params.push(userId);
+    }
+
+    const result = await query(queryStr, params);
 
     if (result.rows.length === 0) {
       return res.status(404).json({ success: false, message: 'Ticket not found' });
