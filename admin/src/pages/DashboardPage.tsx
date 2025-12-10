@@ -161,7 +161,7 @@ const DashboardPage: React.FC = () => {
 
                                 <div className="ticket-footer">
                                     <small>
-                                        Created: {new Date(ticket.createdAt).toLocaleDateString()}
+                                        Created: {new Date((ticket as any).created_at || ticket.createdAt).toLocaleDateString()}
                                     </small>
                                 </div>
                             </div>
