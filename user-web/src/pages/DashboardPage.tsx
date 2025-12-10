@@ -10,7 +10,6 @@ import './DashboardPage.css';
 const DashboardPage = () => {
     const { user } = useAuthStore();
     const [tickets, setTickets] = useState<Ticket[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         loadTickets();
@@ -22,8 +21,6 @@ const DashboardPage = () => {
             setTickets(response.data);
         } catch (error) {
             console.error('Failed to load tickets:', error);
-        } finally {
-            setIsLoading(false);
         }
     };
 
