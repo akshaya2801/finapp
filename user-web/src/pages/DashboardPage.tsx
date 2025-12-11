@@ -18,9 +18,10 @@ const DashboardPage = () => {
     const loadTickets = async () => {
         try {
             const response = await ticketAPI.getAll();
-            setTickets(response.data);
+            setTickets(response.data.tickets || []);
         } catch (error) {
             console.error('Failed to load tickets:', error);
+            setTickets([]);
         }
     };
 
