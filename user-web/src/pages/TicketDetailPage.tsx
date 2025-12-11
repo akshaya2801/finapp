@@ -29,7 +29,6 @@ interface Message {
 const TicketDetailPage = () => {
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
-    const { user } = useAuthStore();
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
     const [ticket, setTicket] = useState<Ticket | null>(null);

@@ -167,9 +167,9 @@ const TicketListPage = () => {
                                 </div>
 
                                 <div className="ticket-footer">
-                                    <span>Created {formatDate(ticket.created_at)}</span>
-                                    {ticket.updated_at !== ticket.created_at && (
-                                        <span>Updated {formatDate(ticket.updated_at)}</span>
+                                    <span>Created {formatDate(ticket.createdAt)}</span>
+                                    {ticket.updatedAt !== ticket.createdAt && (
+                                        <span>Updated {formatDate(ticket.updatedAt)}</span>
                                     )}
                                 </div>
                             </Link>

@@ -6,7 +6,7 @@ import { useAuthStore } from '../store/authStore';
 import './ProfilePage.css';
 
 const ProfilePage = () => {
-    const { user, setUser } = useAuthStore();
+    const { user, updateUser } = useAuthStore();
     const [isEditing, setIsEditing] = useState(false);
     const [isChangingPassword, setIsChangingPassword] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
@@ -55,8 +55,8 @@ const ProfilePage = () => {
         setMessage({ type: '', text: '' });
 
         try {
-            const response = await profileAPI.update(profileData);
-            setUser({ ...user!, ...profileData });
+            await profileAPI.update(profileData);
+            updateUser(profileData);
             setMessage({ type: 'success', text: 'Profile updated successfully!' });
             setIsEditing(false);
         } catch (error: any) {
