@@ -64,7 +64,10 @@ const TicketListPage = () => {
     };
 
     const formatDate = (dateString: string) => {
-        return new Date(dateString).toLocaleDateString('en-US', {
+        if (!dateString) return 'N/A';
+        const date = new Date(dateString);
+        if (isNaN(date.getTime())) return 'Invalid Date';
+        return date.toLocaleDateString('en-US', {
             year: 'numeric',
             month: 'short',
             day: 'numeric'
@@ -153,7 +156,7 @@ const TicketListPage = () => {
                                 </div>
 
                                 <div className="ticket-meta">
-                                    <span className="ticket-id">#{ticket.id.slice(0, 8)}</span>
+                                    <span className="ticket-id">ID: {ticket.id.slice(0, 8).toUpperCase()}</span>
                                     <span className={getPriorityClass(ticket.priority)}>
                                         {ticket.priority}
                                     </span>

@@ -17,10 +17,13 @@ const NewTicketPage = () => {
     const [error, setError] = useState('');
 
     const categories = [
-        { value: 'account', label: 'Account Issues' },
-        { value: 'technical', label: 'Technical Support' },
-        { value: 'billing', label: 'Billing & Payments' },
-        { value: 'general', label: 'General Inquiry' }
+        { value: 'insurance', label: 'Insurance' },
+        { value: 'sip', label: 'SIP' },
+        { value: 'mutual_funds', label: 'Mutual Funds' },
+        { value: 'loans', label: 'Loans' },
+        { value: 'real_estate', label: 'Real Estate' },
+        { value: 'general', label: 'General Query' },
+        { value: 'technical', label: 'Technical Query' }
     ];
 
     const priorities = [
