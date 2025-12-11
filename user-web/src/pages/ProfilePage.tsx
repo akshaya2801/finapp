@@ -25,13 +25,31 @@ const ProfilePage = () => {
     const [message, setMessage] = useState({ type: '', text: '' });
 
     useEffect(() => {
-        if (user) {
-            setProfileData({
-                name: user.name || '',
-                phone: user.phone || ''
-            });
-        }
-    }, [user]);
+        // Fetch profile from backend to ensure we have latest data
+        const fetchProfile = async () => {
+            try {
+                const response = await profileAPI.get();
+                const userData = response.data.user;
+                setProfileData({
+                    name: userData.name || '',
+                    phone: userData.phone || ''
+                });
+                // Update auth store with latest data
+                updateUser(userData);
+            } catch (error) {
+                console.error('Failed to fetch profile:', error);
+                // Fallback to auth store data
+                if (user) {
+                    setProfileData({
+                        name: user.name || '',
+                        phone: user.phone || ''
+                    });
+                }
+            }
+        };
+
+        fetchProfile();
+    }, []);
 
     const handleProfileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setProfileData({
@@ -264,6 +282,9 @@ const ProfilePage = () => {
                                     onChange={handlePasswordChange}
                                     required
                                 />
+                                <small className="password-hint">
+                                    Must be at least 6 characters with uppercase, lowercase, and number
+                                </small>
                             </div>
 
                             <div className="form-group">

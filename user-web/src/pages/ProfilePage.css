@@ -97,6 +97,11 @@
     color: var(--text-muted);
 }
 
+.password-hint {
+    color: rgba(139, 92, 246, 0.8);
+    font-style: italic;
+}
+
 .form-actions {
     display: flex;
     gap: var(--spacing-md);
