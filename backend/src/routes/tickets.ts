@@ -41,27 +41,42 @@ router.get('/', authMiddleware, async (req: Request, res: Response) => {
     const isAdmin = req.user?.role === 'admin';
     const { status } = req.query;
 
-    let queryStr = 'SELECT * FROM tickets';
+    let queryStr = `
+      SELECT t.*, 
+             u.name as user_name, 
+             u.email as user_email
+      FROM tickets t
+      LEFT JOIN users u ON t.user_id = u.id
+    `;
     const params: any[] = [];
 
     // Admins see all tickets, users see only their own
     if (!isAdmin) {
-      queryStr += ' WHERE user_id = $1';
+      queryStr += ' WHERE t.user_id = $1';
       params.push(userId);
     }
 
     if (status) {
-      queryStr += isAdmin ? ' WHERE status = $1' : ' AND status = $2';
+      queryStr += isAdmin ? ' WHERE t.status = $1' : ' AND t.status = $2';
       params.push(status);
     }
 
-    queryStr += ' ORDER BY created_at DESC';
+    queryStr += ' ORDER BY t.created_at DESC';
 
     const result = await query(queryStr, params);
 
+    // Transform the response to include user object
+    const tickets = result.rows.map(row => ({
+      ...row,
+      user: row.user_name ? {
+        name: row.user_name,
+        email: row.user_email
+      } : null
+    }));
+
     res.json({
       success: true,
-      tickets: result.rows,
+      tickets,
     });
   } catch (err: any) {
     console.error('Get tickets error:', err);
