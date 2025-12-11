@@ -12,14 +12,14 @@ interface Ticket {
     category: string;
     priority: string;
     status: string;
-    created_at: string;
-    updated_at: string;
+    createdAt: string;
+    updatedAt: string;
 }
 
 interface Message {
     id: string;
-    ticket_id: string;
-    sender_id: string;
+    ticket_id?: string;
+    sender_id?: string;
     sender_role: string;
     content: string;
     created_at: string;
@@ -61,7 +61,16 @@ const TicketDetailPage = () => {
     const fetchMessages = async () => {
         try {
             const response = await messageAPI.getByTicket(id!);
-            setMessages(response.data.messages || []);
+            // Backend returns messages in a different format
+            const backendMessages = response.data.messages || [];
+            // Transform to match our interface
+            const transformedMessages = backendMessages.map((msg: any) => ({
+                id: msg.id,
+                sender_role: msg.sender?.role || 'customer',
+                content: msg.text || msg.content,
+                created_at: msg.createdAt || msg.created_at
+            }));
+            setMessages(transformedMessages);
         } catch (error) {
             console.error('Failed to load messages:', error);
             setMessages([]);
@@ -76,6 +85,7 @@ const TicketDetailPage = () => {
         setIsSending(true);
 
         try {
+            // Backend expects POST /:ticketId with {text}
             await messageAPI.send({
                 ticketId: id!,
                 content: newMessage.trim()
@@ -185,11 +195,11 @@ const TicketDetailPage = () => {
                         </div>
                         <div className="meta-item">
                             <span className="meta-label">Created:</span>
-                            <span className="meta-value">{formatDate(ticket.created_at)}</span>
+                            <span className="meta-value">{formatDate(ticket.createdAt)}</span>
                         </div>
                         <div className="meta-item">
                             <span className="meta-label">Last Updated:</span>
-                            <span className="meta-value">{formatDate(ticket.updated_at)}</span>
+                            <span className="meta-value">{formatDate(ticket.updatedAt)}</span>
                         </div>
                     </div>
 

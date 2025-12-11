@@ -101,10 +101,10 @@ export const ticketAPI = {
 
 export const messageAPI = {
     getByTicket: (ticketId: string) =>
-        apiClient.get(`/messages/${ticketId}`),
+        apiClient.get(`/messages/ticket/${ticketId}`),
 
     send: (data: { ticketId: string; content: string }) =>
-        apiClient.post('/messages', data),
+        apiClient.post(`/messages/${data.ticketId}`, { text: data.content }),
 };
 
 export const attachmentAPI = {
