@@ -131,7 +131,12 @@ const DashboardPage: React.FC = () => {
                                 onClick={() => navigate(`/ticket/${ticket.id}`)}
                             >
                                 <div className="ticket-header">
-                                    <h3>{ticket.title}</h3>
+                                    <div>
+                                        <h3>{ticket.title}</h3>
+                                        <small style={{ fontFamily: 'monospace', color: '#86868b', fontSize: '11px' }}>
+                                            ID: {ticket.id.slice(0, 8).toUpperCase()}
+                                        </small>
+                                    </div>
                                     <span
                                         className="status-badge"
                                         style={{ backgroundColor: getStatusColor(ticket.status) }}
