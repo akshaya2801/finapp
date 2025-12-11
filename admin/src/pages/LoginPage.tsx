@@ -41,8 +41,9 @@ const LoginPage: React.FC = () => {
         <div className="login-page">
             <div className="login-container">
                 <div className="login-header">
-                    <h1>FinApp Admin</h1>
-                    <p>Ticket Management System</p>
+                    <img src="/logo.jpg" alt="ProWell Logo" style={{ maxWidth: '200px', marginBottom: '1rem' }} />
+                    <h1>Prowell Finvest Services</h1>
+                    <p>Admin Portal - Ticket Management System</p>
                 </div>
 
                 <form onSubmit={handleSubmit} className="login-form">

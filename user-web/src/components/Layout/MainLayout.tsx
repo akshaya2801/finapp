@@ -21,7 +21,7 @@ const MainLayout = () => {
 
     const handleLogout = () => {
         clearAuth();
-        navigate('/login');
+        navigate('/login', { replace: true });
     };
 
     const navItems = [
@@ -44,7 +44,8 @@ const MainLayout = () => {
                     </button>
 
                     <div className="header-brand">
-                        <h1>Prowell Finvest</h1>
+                        <img src="/logo.jpg" alt="ProWell" style={{ height: '40px', marginRight: '12px' }} />
+                        <h1>Prowell Finvest Services</h1>
                     </div>
 
                     <div className="header-actions">

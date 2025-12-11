@@ -205,6 +205,7 @@ const RegisterPage = () => {
                 </div>
 
                 <div className="auth-brand">
+                    <img src="/logo.jpg" alt="ProWell Logo" style={{ maxWidth: '200px', marginBottom: '1rem' }} />
                     <h2>Prowell Finvest Services</h2>
                     <p>Your trusted financial partner</p>
                 </div>

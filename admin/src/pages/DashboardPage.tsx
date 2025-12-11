@@ -49,7 +49,7 @@ const DashboardPage: React.FC = () => {
 
     const handleLogout = () => {
         logout();
-        navigate('/');
+        navigate('/', { replace: true });
     };
 
     const getStatusColor = (status: string) => {
@@ -76,9 +76,12 @@ const DashboardPage: React.FC = () => {
         <div className="dashboard-page">
             <header className="dashboard-header">
                 <div className="header-content">
-                    <div>
-                        <h1>Admin Dashboard</h1>
-                        <p>Welcome back, {user?.name}</p>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <img src="/logo.jpg" alt="ProWell" style={{ height: '50px' }} />
+                        <div>
+                            <h1>Admin Dashboard</h1>
+                            <p>Welcome back, {user?.name}</p>
+                        </div>
                     </div>
                     <div style={{ display: 'flex', gap: '12px' }}>
                         <button onClick={() => navigate('/analytics')} className="analytics-button">

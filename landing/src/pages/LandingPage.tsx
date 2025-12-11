@@ -33,6 +33,7 @@ const LandingPage = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, ease: 'easeOut' }}
                 >
+                    <img src="/logo.jpg" alt="ProWell Logo" className="brand-logo" />
                     <h1 className="brand-title">
                         <span className="gradient-text">Prowell Finvest Services</span>
                     </h1>
