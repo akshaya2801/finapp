@@ -180,22 +180,25 @@
 }
 
 .message-text {
-    padding: var(--spacing-md);
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: var(--radius-md);
-    color: var(--text-secondary);
-    line-height: 1.5;
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    color: var(--text-primary);
+    line-height: 1.6;
     white-space: pre-wrap;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .message-user .message-text {
-    background: rgba(139, 92, 246, 0.1);
-    border-left: 3px solid var(--primary);
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(139, 92, 246, 0.15));
+    border-left: 4px solid var(--primary);
+    box-shadow: 0 2px 12px rgba(139, 92, 246, 0.2);
 }
 
 .message-admin .message-text {
-    background: rgba(236, 72, 153, 0.1);
-    border-left: 3px solid var(--secondary);
+    background: linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(236, 72, 153, 0.15));
+    border-left: 4px solid var(--secondary);
+    box-shadow: 0 2px 12px rgba(236, 72, 153, 0.2);
 }
 
 .message-input-form {
