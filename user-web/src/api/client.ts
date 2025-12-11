@@ -133,5 +133,5 @@ export const profileAPI = {
         apiClient.put('/profile', data),
 
     changePassword: (data: { currentPassword: string; newPassword: string }) =>
-        apiClient.post('/profile/change-password', data),
+        apiClient.put('/profile/password', data),
 };
