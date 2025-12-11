@@ -3,8 +3,19 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FiClock, FiCheckCircle, FiAlertCircle, FiXCircle, FiPlus } from 'react-icons/fi';
 import { ticketAPI } from '../api/client';
-import { Ticket } from '../store/ticketStore';
 import './TicketListPage.css';
+
+// Backend returns snake_case fields
+interface BackendTicket {
+    id: string;
+    title: string;
+    description: string;
+    category: string;
+    priority: string;
+    status: string;
+    created_at: string;
+    updated_at: string;
+}
 
 const TicketListPage = () => {
     const [tickets, setTickets] = useState<Ticket[]>([]);
