@@ -3,7 +3,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FiArrowLeft, FiSend, FiClock, FiUser } from 'react-icons/fi';
 import { ticketAPI, messageAPI } from '../api/client';
-import { useAuthStore } from '../store/authStore';
 import './TicketDetailPage.css';
 
 interface Ticket {
