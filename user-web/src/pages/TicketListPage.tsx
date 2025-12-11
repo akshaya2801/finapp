@@ -18,8 +18,8 @@ interface BackendTicket {
 }
 
 const TicketListPage = () => {
-    const [tickets, setTickets] = useState<Ticket[]>([]);
-    const [filteredTickets, setFilteredTickets] = useState<Ticket[]>([]);
+    const [tickets, setTickets] = useState<BackendTicket[]>([]);
+    const [filteredTickets, setFilteredTickets] = useState<BackendTicket[]>([]);
     const [activeFilter, setActiveFilter] = useState('all');
     const [isLoading, setIsLoading] = useState(true);
 
@@ -181,9 +181,9 @@ const TicketListPage = () => {
                                 </div>
 
                                 <div className="ticket-footer">
-                                    <span>Created {formatDate(ticket.createdAt)}</span>
-                                    {ticket.updatedAt !== ticket.createdAt && (
-                                        <span>Updated {formatDate(ticket.updatedAt)}</span>
+                                    <span>Created {formatDate(ticket.created_at)}</span>
+                                    {ticket.updated_at !== ticket.created_at && (
+                                        <span>Updated {formatDate(ticket.updated_at)}</span>
                                     )}
                                 </div>
                             </Link>
