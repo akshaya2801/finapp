@@ -36,4 +36,11 @@ export const adminAPI = {
       { text },
       { headers: { Authorization: `Bearer ${token}` } }
     ),
+
+  updateTicketAction: (ticketId: string, action_taken: string, token: string) =>
+    axios.put(
+      `${API_BASE_URL}/tickets/${ticketId}/action`,
+      { action_taken },
+      { headers: { Authorization: `Bearer ${token}` } }
+    ),
 };

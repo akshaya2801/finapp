@@ -24,6 +24,7 @@ interface Ticket {
     priority: string;
     status: string;
     createdAt: string;
+    action_taken?: string;
     rating?: number;
     feedback?: string;
     user?: {
@@ -41,14 +42,23 @@ const TicketDetailPage: React.FC = () => {
     const [ticket, setTicket] = useState<Ticket | null>(null);
     const [messages, setMessages] = useState<Message[]>([]);
     const [newMessage, setNewMessage] = useState('');
+    const [actionTaken, setActionTaken] = useState('');
     const [loading, setLoading] = useState(true);
     const [sending, setSending] = useState(false);
+    const [savingAction, setSavingAction] = useState(false);
     const [error, setError] = useState('');
 
     useEffect(() => {
         if (ticketId && token) {
             fetchTicketDetails();
             fetchMessages();
+
+            // Poll for new messages every 5 seconds
+            const interval = setInterval(() => {
+                fetchMessages();
+            }, 5000);
+
+            return () => clearInterval(interval);
         }
     }, [ticketId, token]);
 
@@ -57,7 +67,9 @@ const TicketDetailPage: React.FC = () => {
 
         try {
             const response = await adminAPI.getTicketById(ticketId, token);
-            setTicket(response.data.ticket);
+            const ticketData = response.data.ticket;
+            setTicket(ticketData);
+            setActionTaken(ticketData.action_taken || '');
         } catch (err: any) {
             setError(err.response?.data?.message || 'Failed to load ticket');
         } finally {
@@ -101,6 +113,21 @@ const TicketDetailPage: React.FC = () => {
             alert('Status updated successfully');
         } catch (err: any) {
             alert(err.response?.data?.message || 'Failed to update status');
+        }
+    };
+
+    const handleSaveAction = async () => {
+        if (!ticketId || !token) return;
+
+        setSavingAction(true);
+        try {
+            await adminAPI.updateTicketAction(ticketId, actionTaken, token);
+            setTicket((prev) => (prev ? { ...prev, action_taken: actionTaken } : null));
+            alert('Action saved successfully');
+        } catch (err: any) {
+            alert(err.response?.data?.message || 'Failed to save action');
+        } finally {
+            setSavingAction(false);
         }
     };
 
@@ -226,6 +253,24 @@ const TicketDetailPage: React.FC = () => {
                                 Closed
                             </button>
                         </div>
+                    </div>
+
+                    <div className="action-section">
+                        <h3>Action Taken / Resolution</h3>
+                        <textarea
+                            value={actionTaken}
+                            onChange={(e) => setActionTaken(e.target.value)}
+                            placeholder="Describe the action taken to resolve this ticket..."
+                            rows={4}
+                            className="action-textarea"
+                        />
+                        <button
+                            onClick={handleSaveAction}
+                            disabled={savingAction}
+                            className="save-action-btn"
+                        >
+                            {savingAction ? 'Saving...' : 'Save Action'}
+                        </button>
                     </div>
                 </div>
 

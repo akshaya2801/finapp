@@ -14,6 +14,7 @@ interface Ticket {
     status: string;
     createdAt: string;
     updatedAt: string;
+    action_taken?: string;
 }
 
 interface Message {
@@ -40,6 +41,13 @@ const TicketDetailPage = () => {
         if (id) {
             fetchTicketDetails();
             fetchMessages();
+
+            // Poll for new messages every 5 seconds
+            const interval = setInterval(() => {
+                fetchMessages();
+            }, 5000);
+
+            return () => clearInterval(interval);
         }
     }, [id]);
 
@@ -207,6 +215,13 @@ const TicketDetailPage = () => {
                         <h3>Description</h3>
                         <p>{ticket.description}</p>
                     </div>
+
+                    {ticket.action_taken && (
+                        <div className="admin-action-section">
+                            <h3>🔧 Admin Response / Action Taken</h3>
+                            <p>{ticket.action_taken}</p>
+                        </div>
+                    )}
                 </motion.div>
 
                 <motion.div

@@ -156,6 +156,32 @@ router.put('/:ticketId/status', authMiddleware, async (req: Request, res: Respon
   }
 });
 
+// Update ticket action taken (admin only)
+router.put('/:ticketId/action', authMiddleware, async (req: Request, res: Response) => {
+  try {
+    const { ticketId } = req.params;
+    const { action_taken } = req.body;
+    const isAdmin = req.user?.role === 'admin';
+
+    if (!isAdmin) {
+      return res.status(403).json({ success: false, message: 'Admin access required' });
+    }
+
+    await query(
+      'UPDATE tickets SET action_taken = $1, updated_at = NOW() WHERE id = $2',
+      [action_taken, ticketId]
+    );
+
+    res.json({
+      success: true,
+      message: 'Action updated successfully',
+    });
+  } catch (err: any) {
+    console.error('Update action error:', err);
+    res.status(500).json({ success: false, message: 'Failed to update action', error: err.message });
+  }
+});
+
 // Rate a ticket (customer only, ticket must be closed)
 router.post('/:ticketId/rate', authMiddleware, async (req: Request, res: Response) => {
   try {
