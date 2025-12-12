@@ -63,7 +63,7 @@ const LandingPage = () => {
                             transition={{ delay: 0.6, duration: 0.8 }}
                         >
                             <Link to="/register" className="btn btn-primary btn-lg">
-                                Get Started
+                                Sign Up
                                 <FiArrowRight />
                             </Link>
                             <Link to="/login" className="btn btn-secondary btn-lg">

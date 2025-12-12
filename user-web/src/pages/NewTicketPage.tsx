@@ -17,13 +17,16 @@ const NewTicketPage = () => {
     const [error, setError] = useState('');
 
     const categories = [
-        { value: 'insurance', label: 'Insurance' },
-        { value: 'sip', label: 'SIP' },
+        { value: 'life_insurance', label: 'Life Insurance' },
+        { value: 'health_insurance', label: 'Health Insurance' },
+        { value: 'other_insurance', label: 'Other Insurance' },
         { value: 'mutual_funds', label: 'Mutual Funds' },
-        { value: 'loans', label: 'Loans' },
+        { value: 'stocks', label: 'Stocks' },
         { value: 'real_estate', label: 'Real Estate' },
+        { value: 'other_investments', label: 'Other Investments' },
+        { value: 'loans', label: 'Loans' },
         { value: 'general', label: 'General Query' },
-        { value: 'technical', label: 'Technical Query' }
+        { value: 'technical', label: 'Tech Query' }
     ];
 
     const priorities = [
