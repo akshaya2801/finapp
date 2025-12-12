@@ -79,7 +79,7 @@ const LandingPage = () => {
                         >
                             <div className="tagline-card glass">
                                 <p className="tagline-text">
-                                    💰 "The best time to plant a tree was 20 years ago. The second best time is now."
+                                    "The best time to plant a tree was 20 years ago. The second best time is now."
                                     <br />
                                     <span className="tagline-sub">Start growing your wealth today!</span>
                                 </p>
